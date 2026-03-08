@@ -22,8 +22,18 @@ export async function POST(req: NextRequest) {
 
         const improved = await improveResumeText(text, type);
         return NextResponse.json({ improved });
-    } catch (error) {
-        console.error('AI improve error:', error);
+    } catch (error: unknown) {
+        const errMsg = error instanceof Error ? error.message : String(error);
+        console.error('AI improve error:', errMsg);
+
+        // Surface rate-limit errors to the user
+        if (errMsg.includes('429')) {
+            return NextResponse.json(
+                { error: 'AI service is rate-limited. Please wait a moment and try again.' },
+                { status: 429 }
+            );
+        }
+
         return NextResponse.json(
             { error: 'Failed to improve text. Please try again.' },
             { status: 500 }

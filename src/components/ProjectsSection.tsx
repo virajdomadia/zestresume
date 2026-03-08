@@ -15,6 +15,7 @@ export default function ProjectsSection({ projects, onChange }: Props) {
                 id: crypto.randomUUID(),
                 name: '',
                 description: '',
+                url: '',
                 technologies: [],
             },
         ]);
@@ -24,7 +25,7 @@ export default function ProjectsSection({ projects, onChange }: Props) {
         onChange(projects.filter((p) => p.id !== id));
     };
 
-    const updateEntry = (id: string, field: 'name' | 'description', value: string) => {
+    const updateEntry = (id: string, field: 'name' | 'description' | 'url', value: string) => {
         onChange(
             projects.map((p) =>
                 p.id === id ? { ...p, [field]: value } : p
@@ -88,12 +89,21 @@ export default function ProjectsSection({ projects, onChange }: Props) {
                         </button>
 
                         <div className="space-y-3">
-                            <input
-                                className="input"
-                                placeholder="Project Name"
-                                value={entry.name}
-                                onChange={(e) => updateEntry(entry.id, 'name', e.target.value)}
-                            />
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <input
+                                    className="input"
+                                    placeholder="Project Name"
+                                    value={entry.name}
+                                    onChange={(e) => updateEntry(entry.id, 'name', e.target.value)}
+                                />
+                                <input
+                                    className="input"
+                                    type="url"
+                                    placeholder="Link / URL (e.g. GitHub or live site)"
+                                    value={entry.url || ''}
+                                    onChange={(e) => updateEntry(entry.id, 'url', e.target.value)}
+                                />
+                            </div>
                             <textarea
                                 className="textarea"
                                 placeholder="Project description..."

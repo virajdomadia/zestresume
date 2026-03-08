@@ -265,7 +265,16 @@ export default function ResumePreview({ data }: Props) {
                                         (entry) =>
                                             entry.name && (
                                                 <div key={entry.id} style={{ marginBottom: '10px' }}>
-                                                    <div style={{ fontWeight: 700, fontSize: '11pt', color: '#111' }}>{entry.name}</div>
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                                                        <div style={{ fontWeight: 700, fontSize: '11pt', color: '#111' }}>{entry.name}</div>
+                                                        {entry.url && (
+                                                            <div style={{ fontSize: '9pt', color: '#3b82f6' }}>
+                                                                <a href={entry.url} style={{ color: 'inherit', textDecoration: 'none' }} target="_blank" rel="noopener noreferrer">
+                                                                    {entry.url.replace(/^https?:\/\//, '')}
+                                                                </a>
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                     {entry.description && (
                                                         <p style={{ fontSize: '10pt', color: '#333', margin: '2px 0' }}>{entry.description}</p>
                                                     )}
