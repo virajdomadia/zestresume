@@ -39,23 +39,61 @@ body {
 
 /* === Animations === */
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(99, 102, 241, 0.6);
+  }
 }
 
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 1rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }
 
 .animate-fade-in {
@@ -254,6 +292,50 @@ body {
   margin-bottom: 0.75rem;
 }
 
+/* === Toast === */
+.toast-container {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  pointer-events: none;
+  width: max-content;
+  max-width: 90vw;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  background: var(--color-surface-light);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  animation: toast-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: auto;
+  color: var(--color-text-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.toast-error {
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.toast-error .toast-icon {
+  color: var(--color-danger);
+}
+
+.toast-success {
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.toast-success .toast-icon {
+  color: var(--color-success);
+}
+
 /* === Scrollbar === */
 ::-webkit-scrollbar {
   width: 6px;
@@ -279,4 +361,42 @@ body {
     background: white;
     color: black;
   }
+}
+
+/* react-phone-input-2 overrides */
+.phone-input-container .form-control {
+  font-family: var(--font-sans) !important;
+}
+
+.phone-input-container .country-list {
+  background-color: var(--color-surface-light) !important;
+  color: var(--color-text-primary) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: 0.5rem !important;
+  margin-top: 4px !important;
+}
+
+.phone-input-container .country-list .country:hover {
+  background-color: var(--color-surface-lighter) !important;
+}
+
+.phone-input-container .country-list .country.highlight {
+  background-color: rgba(99, 102, 241, 0.2) !important;
+}
+
+.phone-input-container .country-list .country .dial-code {
+  color: var(--color-text-secondary) !important;
+}
+
+.phone-input-container .country-list .search {
+  background-color: var(--color-surface) !important;
+  padding: 8px !important;
+}
+
+.phone-input-container .country-list .search-box {
+  background-color: var(--color-surface) !important;
+  color: var(--color-text-primary) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: 4px !important;
+  width: calc(100% - 16px) !important;
 }

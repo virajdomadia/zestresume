@@ -5,9 +5,10 @@ import type { Project } from '@/lib/types';
 interface Props {
     projects: Project[];
     onChange: (projects: Project[]) => void;
+    disabled?: boolean;
 }
 
-export default function ProjectsSection({ projects, onChange }: Props) {
+export default function ProjectsSection({ projects, onChange, disabled }: Props) {
     const addEntry = () => {
         onChange([
             ...projects,
@@ -25,7 +26,7 @@ export default function ProjectsSection({ projects, onChange }: Props) {
         onChange(projects.filter((p) => p.id !== id));
     };
 
-    const updateEntry = (id: string, field: 'name' | 'description' | 'url', value: string) => {
+    const updateEntry = (id: string, field: keyof Project, value: any) => {
         onChange(
             projects.map((p) =>
                 p.id === id ? { ...p, [field]: value } : p
@@ -37,14 +38,14 @@ export default function ProjectsSection({ projects, onChange }: Props) {
         e: React.KeyboardEvent<HTMLInputElement>,
         id: string
     ) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' || e.key === ',') {
             e.preventDefault();
             const value = (e.target as HTMLInputElement).value.trim();
             if (!value) return;
             onChange(
                 projects.map((p) =>
-                    p.id === id && !p.technologies.includes(value)
-                        ? { ...p, technologies: [...p.technologies, value] }
+                    p.id === id && !(p.technologies || []).includes(value)
+                        ? { ...p, technologies: [...(p.technologies || []), value] }
                         : p
                 )
             );
@@ -56,7 +57,7 @@ export default function ProjectsSection({ projects, onChange }: Props) {
         onChange(
             projects.map((p) =>
                 p.id === id
-                    ? { ...p, technologies: p.technologies.filter((t) => t !== tech) }
+                    ? { ...p, technologies: (p.technologies || []).filter((t) => t !== tech) }
                     : p
             )
         );
@@ -93,7 +94,7 @@ export default function ProjectsSection({ projects, onChange }: Props) {
                                 <input
                                     className="input"
                                     placeholder="Project Name"
-                                    value={entry.name}
+                                    value={entry.name || ''}
                                     onChange={(e) => updateEntry(entry.id, 'name', e.target.value)}
                                 />
                                 <input
@@ -104,26 +105,30 @@ export default function ProjectsSection({ projects, onChange }: Props) {
                                     onChange={(e) => updateEntry(entry.id, 'url', e.target.value)}
                                 />
                             </div>
-                            <textarea
-                                className="textarea"
-                                placeholder="Project description..."
-                                value={entry.description}
-                                onChange={(e) => updateEntry(entry.id, 'description', e.target.value)}
-                                rows={2}
-                            />
+
+                            <div className="space-y-2">
+                                <span className="text-xs text-text-muted font-medium">Project Description / Outcomes</span>
+                                <textarea
+                                    className="textarea text-sm"
+                                    placeholder="Describe your project, your role, and the technologies used. Our AI will transform this into structured, impactful bullet points!"
+                                    value={entry.description || ''}
+                                    onChange={(e) => updateEntry(entry.id, 'description', e.target.value)}
+                                    rows={4}
+                                />
+                            </div>
 
                             <div>
                                 <span className="text-xs text-text-muted font-medium block mb-1.5">
-                                    Technologies (press Enter to add)
+                                    Technologies (press Enter or Comma to add)
                                 </span>
                                 <input
                                     className="input"
                                     placeholder="e.g. React, Node.js..."
                                     onKeyDown={(e) => handleTechKeyDown(e, entry.id)}
                                 />
-                                {entry.technologies.length > 0 && (
+                                {(entry.technologies || []).length > 0 && (
                                     <div className="flex flex-wrap gap-1.5 mt-2">
-                                        {entry.technologies.map((tech) => (
+                                        {(entry.technologies || []).map((tech) => (
                                             <span
                                                 key={tech}
                                                 className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary-light text-xs rounded-full border border-primary/20"

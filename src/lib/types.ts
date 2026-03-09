@@ -2,9 +2,11 @@ export interface PersonalInfo {
     name: string;
     email: string;
     phone: string;
+    countryCode: string;
     location: string;
     linkedin: string;
     portfolio: string;
+    github: string;
 }
 
 export interface Experience {
@@ -13,7 +15,8 @@ export interface Experience {
     role: string;
     startDate: string;
     endDate: string;
-    bullets: string[];
+    current: boolean;
+    description: string;
 }
 
 export interface Education {
@@ -23,6 +26,9 @@ export interface Education {
     field: string;
     startYear: string;
     endYear: string;
+    current: boolean;
+    gradeType: 'cgpa' | 'percentage';
+    grade: string;
 }
 
 export interface Project {
@@ -33,13 +39,17 @@ export interface Project {
     technologies: string[];
 }
 
+export type TemplateType = 'classic' | 'modern' | 'minimal';
+
 export interface ResumeData {
     personalInfo: PersonalInfo;
     summary: string;
     experience: Experience[];
     education: Education[];
     skills: string[];
+    categorizedSkills?: Record<string, string[]>;
     projects: Project[];
+    template: TemplateType;
 }
 
 export const defaultResumeData: ResumeData = {
@@ -47,13 +57,16 @@ export const defaultResumeData: ResumeData = {
         name: '',
         email: '',
         phone: '',
+        countryCode: '+91',
         location: '',
         linkedin: '',
         portfolio: '',
+        github: '',
     },
     summary: '',
     experience: [],
     education: [],
     skills: [],
     projects: [],
+    template: 'classic',
 };

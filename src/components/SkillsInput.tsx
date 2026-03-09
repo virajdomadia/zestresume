@@ -19,7 +19,7 @@ export default function SkillsInput({ skills, onChange }: Props) {
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' || e.key === ',') {
             e.preventDefault();
             addSkill(input);
         }
@@ -58,13 +58,13 @@ export default function SkillsInput({ skills, onChange }: Props) {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder={skills.length === 0 ? 'Type a skill and press Enter...' : 'Add more...'}
+                    placeholder={skills.length === 0 ? 'Type a skill and press Enter or Comma...' : 'Add more...'}
                     className="flex-1 min-w-[120px] bg-transparent border-none outline-none text-text-primary text-sm placeholder:text-text-muted"
                 />
             </div>
 
             <p className="text-xs text-text-muted mt-1.5">
-                Press Enter to add a skill. Backspace to remove the last one.
+                Press Enter or Comma to add a skill. Backspace to remove the last one.
             </p>
         </div>
     );

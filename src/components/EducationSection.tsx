@@ -18,6 +18,9 @@ export default function EducationSection({ education, onChange }: Props) {
                 field: '',
                 startYear: '',
                 endYear: '',
+                current: false,
+                gradeType: 'cgpa' as const,
+                grade: '',
             },
         ]);
     };
@@ -64,34 +67,72 @@ export default function EducationSection({ education, onChange }: Props) {
                             <input
                                 className="input"
                                 placeholder="Institution"
-                                value={entry.institution}
+                                value={entry.institution || ''}
                                 onChange={(e) => updateEntry(entry.id, 'institution', e.target.value)}
                             />
                             <input
                                 className="input"
                                 placeholder="Degree (e.g. Bachelor of Science)"
-                                value={entry.degree}
+                                value={entry.degree || ''}
                                 onChange={(e) => updateEntry(entry.id, 'degree', e.target.value)}
                             />
                             <input
                                 className="input"
                                 placeholder="Field of Study"
-                                value={entry.field}
+                                value={entry.field || ''}
                                 onChange={(e) => updateEntry(entry.id, 'field', e.target.value)}
                             />
-                            <div className="grid grid-cols-2 gap-3">
-                                <input
-                                    className="input"
-                                    placeholder="Start Year"
-                                    value={entry.startYear}
-                                    onChange={(e) => updateEntry(entry.id, 'startYear', e.target.value)}
-                                />
-                                <input
-                                    className="input"
-                                    placeholder="End Year"
-                                    value={entry.endYear}
-                                    onChange={(e) => updateEntry(entry.id, 'endYear', e.target.value)}
-                                />
+                            {!entry.current && (
+                                <div className="flex gap-2">
+                                    <select
+                                        className="input"
+                                        style={{ flex: '0 0 auto', width: 'auto' }}
+                                        value={entry.gradeType || 'cgpa'}
+                                        onChange={(e) => updateEntry(entry.id, 'gradeType', e.target.value as any)}
+                                    >
+                                        <option value="cgpa">CGPA</option>
+                                        <option value="percentage">Percentage</option>
+                                    </select>
+                                    <input
+                                        className="input flex-1"
+                                        placeholder={entry.gradeType === 'percentage' ? 'e.g. 85' : 'e.g. 8.5'}
+                                        value={entry.grade || ''}
+                                        onChange={(e) => updateEntry(entry.id, 'grade', e.target.value)}
+                                    />
+                                </div>
+                            )}
+                            <input
+                                className="input"
+                                placeholder="Start Year"
+                                value={entry.startYear || ''}
+                                onChange={(e) => updateEntry(entry.id, 'startYear', e.target.value)}
+                            />
+                            <div className="flex items-center gap-3">
+                                {!entry.current && (
+                                    <input
+                                        className="input flex-1"
+                                        placeholder="End Year"
+                                        value={entry.endYear || ''}
+                                        onChange={(e) => updateEntry(entry.id, 'endYear', e.target.value)}
+                                    />
+                                )}
+                                <label className="flex items-center gap-2 text-sm text-text-secondary whitespace-nowrap cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        checked={entry.current || false}
+                                        onChange={(e) => {
+                                            onChange(
+                                                education.map((ed) =>
+                                                    ed.id === entry.id
+                                                        ? { ...ed, current: e.target.checked, endYear: e.target.checked ? 'Present' : '', grade: e.target.checked ? '' : ed.grade }
+                                                        : ed
+                                                )
+                                            );
+                                        }}
+                                        className="accent-primary"
+                                    />
+                                    Currently Studying
+                                </label>
                             </div>
                         </div>
                     </div>

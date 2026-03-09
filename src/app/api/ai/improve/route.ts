@@ -1,10 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { improveResumeText } from '@/lib/gemini';
+import { improveResumeText, optimizeFullResume } from '@/lib/gemini';
 
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const { text, type } = body;
+        const { text, type, fullData } = body;
+
+        if (type === 'full') {
+            if (!fullData) {
+                return NextResponse.json(
+                    { error: 'Missing fullData for full optimization' },
+                    { status: 400 }
+                );
+            }
+            const optimized = await optimizeFullResume(fullData);
+            return NextResponse.json({ optimized });
+        }
 
         if (!text || typeof text !== 'string') {
             return NextResponse.json(
@@ -15,7 +26,7 @@ export async function POST(req: NextRequest) {
 
         if (!type || !['summary', 'bullet'].includes(type)) {
             return NextResponse.json(
-                { error: 'Missing or invalid "type" field. Must be "summary" or "bullet".' },
+                { error: 'Missing or invalid "type" field. Must be "summary", "bullet", or "full".' },
                 { status: 400 }
             );
         }

@@ -33,7 +33,7 @@ export default function Navbar() {
                         </>
                     )}
                     <Link
-                        href="/builder"
+                        href={isBuilder ? '/' : '/builder'}
                         className={isBuilder ? 'btn-secondary text-sm' : 'btn-primary text-sm'}
                     >
                         {isBuilder ? '← Back Home' : 'Create Resume →'}

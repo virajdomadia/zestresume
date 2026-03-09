@@ -1,16 +1,14 @@
 'use client';
 
-import { useState } from 'react';
 import type { Experience } from '@/lib/types';
 
 interface Props {
     experience: Experience[];
     onChange: (experience: Experience[]) => void;
+    disabled?: boolean;
 }
 
-export default function ExperienceSection({ experience, onChange }: Props) {
-    const [loadingAI, setLoadingAI] = useState<Record<string, boolean>>({});
-
+export default function ExperienceSection({ experience, onChange, disabled }: Props) {
     const addEntry = () => {
         onChange([
             ...experience,
@@ -20,7 +18,8 @@ export default function ExperienceSection({ experience, onChange }: Props) {
                 role: '',
                 startDate: '',
                 endDate: '',
-                bullets: [''],
+                current: false,
+                description: '',
             },
         ]);
     };
@@ -29,62 +28,12 @@ export default function ExperienceSection({ experience, onChange }: Props) {
         onChange(experience.filter((e) => e.id !== id));
     };
 
-    const updateEntry = (id: string, field: keyof Experience, value: string) => {
+    const updateEntry = (id: string, field: keyof Experience, value: string | boolean) => {
         onChange(
             experience.map((e) =>
                 e.id === id ? { ...e, [field]: value } : e
             )
         );
-    };
-
-    const updateBullet = (id: string, index: number, value: string) => {
-        onChange(
-            experience.map((e) =>
-                e.id === id
-                    ? { ...e, bullets: e.bullets.map((b, i) => (i === index ? value : b)) }
-                    : e
-            )
-        );
-    };
-
-    const addBullet = (id: string) => {
-        onChange(
-            experience.map((e) =>
-                e.id === id ? { ...e, bullets: [...e.bullets, ''] } : e
-            )
-        );
-    };
-
-    const removeBullet = (id: string, index: number) => {
-        onChange(
-            experience.map((e) =>
-                e.id === id
-                    ? { ...e, bullets: e.bullets.filter((_, i) => i !== index) }
-                    : e
-            )
-        );
-    };
-
-    const rewriteBullet = async (id: string, index: number, text: string) => {
-        if (!text.trim()) return;
-        const key = `${id}-${index}`;
-        setLoadingAI((prev) => ({ ...prev, [key]: true }));
-
-        try {
-            const res = await fetch('/api/ai/improve', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text, type: 'bullet' }),
-            });
-            const data = await res.json();
-            if (data.improved) {
-                updateBullet(id, index, data.improved);
-            }
-        } catch (err) {
-            console.error('AI rewrite failed:', err);
-        } finally {
-            setLoadingAI((prev) => ({ ...prev, [key]: false }));
-        }
     };
 
     return (
@@ -117,65 +66,70 @@ export default function ExperienceSection({ experience, onChange }: Props) {
                             <input
                                 className="input"
                                 placeholder="Company"
-                                value={entry.company}
+                                value={entry.company || ''}
                                 onChange={(e) => updateEntry(entry.id, 'company', e.target.value)}
                             />
                             <input
                                 className="input"
                                 placeholder="Role / Title"
-                                value={entry.role}
+                                value={entry.role || ''}
                                 onChange={(e) => updateEntry(entry.id, 'role', e.target.value)}
                             />
-                            <input
-                                className="input"
-                                placeholder="Start Date (e.g. Jan 2022)"
-                                value={entry.startDate}
-                                onChange={(e) => updateEntry(entry.id, 'startDate', e.target.value)}
-                            />
-                            <input
-                                className="input"
-                                placeholder="End Date (or Present)"
-                                value={entry.endDate}
-                                onChange={(e) => updateEntry(entry.id, 'endDate', e.target.value)}
-                            />
+                            <div className="relative">
+                                <input
+                                    className={`input ${entry.startDate && !/\d{4}/.test(entry.startDate) ? 'border-amber-500/50' : ''}`}
+                                    placeholder="Start Date (e.g. Jan 2022)"
+                                    value={entry.startDate || ''}
+                                    onChange={(e) => updateEntry(entry.id, 'startDate', e.target.value)}
+                                />
+                                {entry.startDate && !/\d{4}/.test(entry.startDate) && (
+                                    <div className="text-[10px] text-amber-400 mt-1 italic">Check year (e.g. 2023)</div>
+                                )}
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <div className="flex items-center gap-3">
+                                    {!entry.current && (
+                                        <div className="flex-1 relative">
+                                            <input
+                                                className={`input !w-full ${entry.endDate && !/\d{4}/.test(entry.endDate) && entry.endDate !== 'Present' ? 'border-amber-500/50' : ''}`}
+                                                placeholder="End Date"
+                                                value={entry.endDate || ''}
+                                                onChange={(e) => updateEntry(entry.id, 'endDate', e.target.value)}
+                                            />
+                                            {entry.endDate && !/\d{4}/.test(entry.endDate) && entry.endDate !== 'Present' && (
+                                                <div className="text-[10px] text-amber-400 mt-1 italic">Check year</div>
+                                            )}
+                                        </div>
+                                    )}
+                                    <label className="flex items-center gap-2 text-sm text-text-secondary whitespace-nowrap cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            checked={entry.current || false}
+                                            onChange={(e) => {
+                                                updateEntry(entry.id, 'current', e.target.checked);
+                                                if (e.target.checked) {
+                                                    updateEntry(entry.id, 'endDate', 'Present');
+                                                } else if (entry.endDate === 'Present') {
+                                                    updateEntry(entry.id, 'endDate', '');
+                                                }
+                                            }}
+                                            className="accent-primary"
+                                        />
+                                        Present
+                                    </label>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="space-y-2">
-                            <span className="text-xs text-text-muted font-medium">Bullet Points</span>
-                            {entry.bullets.map((bullet, i) => (
-                                <div key={i} className="flex gap-2 items-start">
-                                    <input
-                                        className="input flex-1"
-                                        placeholder="Describe your achievement..."
-                                        value={bullet}
-                                        onChange={(e) => updateBullet(entry.id, i, e.target.value)}
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => rewriteBullet(entry.id, i, bullet)}
-                                        disabled={loadingAI[`${entry.id}-${i}`]}
-                                        className="btn-ai whitespace-nowrap"
-                                    >
-                                        {loadingAI[`${entry.id}-${i}`] ? '⏳' : '✨ AI'}
-                                    </button>
-                                    {entry.bullets.length > 1 && (
-                                        <button
-                                            type="button"
-                                            onClick={() => removeBullet(entry.id, i)}
-                                            className="btn-danger"
-                                        >
-                                            ✕
-                                        </button>
-                                    )}
-                                </div>
-                            ))}
-                            <button
-                                type="button"
-                                onClick={() => addBullet(entry.id)}
-                                className="text-xs text-primary-light hover:text-primary transition-colors"
-                            >
-                                + Add bullet point
-                            </button>
+                            <span className="text-xs text-text-muted font-medium">Work Description / Achievements</span>
+                            <textarea
+                                className="textarea text-sm"
+                                placeholder="List your key responsibilities and achievements here. Tip: Use a new line for each achievement. Our AI will clean this up into professional bullet points!"
+                                value={entry.description || ''}
+                                onChange={(e) => updateEntry(entry.id, 'description', e.target.value)}
+                                rows={4}
+                            />
                         </div>
                     </div>
                 ))}
