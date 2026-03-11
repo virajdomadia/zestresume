@@ -80,6 +80,24 @@ module.exports = {
             'soft-skills-in-ai-resume',
         ];
 
+        const landings = [
+            'ai-resume-builder',
+            'ats-resume-builder',
+            'resume-builder-for-freshers',
+            'free-resume-builder',
+            'resume-builder-india',
+            'cv-maker-online',
+            'resume-checker-ai',
+            'best-ai-resume-writer',
+            'resume-optimization-ats',
+            'career-change-resume-builder',
+            'executive-resume-builder',
+            'student-resume-builder',
+            'resume-format-2025',
+            'professional-cv-builder',
+            'ai-cover-letter-writer',
+        ];
+
         const rolePaths = roles.map((role) => ({
             loc: `/templates/${role}`,
             changefreq: 'weekly',
@@ -101,6 +119,13 @@ module.exports = {
             lastmod: new Date().toISOString(),
         }));
 
-        return [...rolePaths, ...toolPaths, ...blogPaths];
+        const landingPaths = landings.map((slug) => ({
+            loc: `/${slug}`,
+            changefreq: 'monthly',
+            priority: 1.0, // High priority for key landing pages
+            lastmod: new Date().toISOString(),
+        }));
+
+        return [...rolePaths, ...toolPaths, ...blogPaths, ...landingPaths];
     },
 };

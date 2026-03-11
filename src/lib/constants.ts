@@ -122,8 +122,102 @@ export const blogData: Record<string, { title: string; description: string; date
     }
 };
 
+export const landingData: Record<string, { title: string; subtitle: string; description: string; highlights: string[] }> = {
+    'ai-resume-builder': {
+        title: 'Elite AI Resume Builder',
+        subtitle: 'Powered by GPT-4o & Career Experts',
+        description: 'Create a professional resume in minutes using the world\'s most advanced AI resume builder. Optimized for high-growth companies.',
+        highlights: ['Context-aware bullet points', 'Instant tone adjustment', 'FAANG-approved templates'],
+    },
+    'ats-resume-builder': {
+        title: 'High-Score ATS Resume Builder',
+        subtitle: 'Bypass Filters. Get Noticed.',
+        description: 'Our builder uses the exact formatting rules required by modern Applicant Tracking Systems to ensure your resume is never filtered out.',
+        highlights: ['95%+ ATS compatibility', 'Keyword injection engine', 'Scan-ready formatting'],
+    },
+    'resume-builder-for-freshers': {
+        title: 'Resume Builder for Freshers',
+        subtitle: 'Start Your Career with a Win',
+        description: 'No experience? No problem. Our AI highlights your projects, skills, and potential to make you stand out to entry-level recruiters.',
+        highlights: ['Project-focused layouts', 'Skill gap analysis', 'Internship templates'],
+    },
+    'free-resume-builder': {
+        title: 'Free AI Resume Builder',
+        subtitle: 'Professional Quality, Zero Cost',
+        description: 'Build, edit, and download your perfect resume for free. No hidden fees, just high-performance career tools.',
+        highlights: ['Unlimited edits', 'PDF export included', 'No credit card required'],
+    },
+    'resume-builder-india': {
+        title: 'Best Resume Builder in India',
+        subtitle: 'Tailored for Indian Tech & MNC Roles',
+        description: 'The preferred choice for professionals in Bangalore, Hyderabad, and Pune. Optimized for top Indian IT firms and global GCCs.',
+        highlights: ['MNC-standard templates', 'Local market insights', 'Multi-industry support'],
+    },
+    'cv-maker-online': {
+        title: 'Professional CV Maker Online',
+        subtitle: 'Create an Elite Curriculum Vitae',
+        description: 'Go beyond the standard resume. Our online CV maker is perfect for academic, medical, and international roles that require a comprehensive profile.',
+        highlights: ['International standards', 'Sleek design layouts', 'Instant PDF download'],
+    },
+    'resume-checker-ai': {
+        title: 'AI Resume Checker & Scorer',
+        subtitle: 'Know Your Score Before Applying',
+        description: 'Upload your resume and let our AI scan it against 50+ corporate ATS rules. Get a detailed score and actionable tips to improve instantly.',
+        highlights: ['ATS pass/fail check', 'Keyword density analysis', 'Formatting alerts'],
+    },
+    'best-ai-resume-writer': {
+        title: 'Best AI Resume Writer 2025',
+        subtitle: 'Experience GPT-4o Powered Writing',
+        description: 'Voted the top AI resume writer for 2025. Our engine understands context, tone, and industry nuances to write better than a human.',
+        highlights: ['Context-aware writing', '200+ power verbs', 'Industry-specific jargon'],
+    },
+    'resume-optimization-ats': {
+        title: 'ATS Resume Optimization Tool',
+        subtitle: 'Engineered for Hiring Algorithms',
+        description: 'Our proprietary optimization engine ensures your resume is perfectly parsed by Greenhouse, Workday, Lever, and other major systems.',
+        highlights: ['Parsing validation', 'Hidden formatting removal', 'Algorithm-ready layout'],
+    },
+    'career-change-resume-builder': {
+        title: 'Career Change Resume Builder',
+        subtitle: 'Pivot Your Career with Confidence',
+        description: 'Transitioning to a new field? Our AI identifies transferable skills and re-frames your experience to match your target role perfectly.',
+        highlights: ['Transferable skill mapping', 'Functional layouts', 'Pivot-focused summaries'],
+    },
+    'executive-resume-builder': {
+        title: 'Executive Resume Builder',
+        subtitle: 'High-Stakes Resumes for Leaders',
+        description: 'Tailored for C-suite and VP-level professionals. Focuses on ROI, leadership impact, and strategic vision rather than just tasks.',
+        highlights: ['Impact-focused metrics', 'Sophisticated typography', 'Board-ready templates'],
+    },
+    'student-resume-builder': {
+        title: 'Resume Builder for Students',
+        subtitle: 'Launch Your Professional Journey',
+        description: 'Perfect for internships, graduation roles, and first jobs. Emphasizes education, extracurriculars, and technical projects.',
+        highlights: ['Education-first layouts', 'Unpaid experience mapping', 'Club/Society templates'],
+    },
+    'resume-format-2025': {
+        title: 'Modern Resume Format 2025',
+        subtitle: 'Stay Ahead of Hiring Trends',
+        description: 'Don\'t use 2020 designs. Our 2025 formats are optimized for hybrid work, technical skills, and mobile-first recruiter reviews.',
+        highlights: ['Mobile-ready designs', 'Technical skill grids', 'Modern accent palettes'],
+    },
+    'professional-cv-builder': {
+        title: 'Professional CV Builder AI',
+        subtitle: 'Elite Standards for All Industries',
+        description: 'Whether you\'re in Finance, Engineering, or Healthcare, our AI builder ensures your professional CV meets global industry standards.',
+        highlights: ['Industry compliance', 'Multi-page support', 'Verified layouts'],
+    },
+    'ai-cover-letter-writer': {
+        title: 'AI Cover Letter Writer',
+        subtitle: 'Match Your Resume Perfectly',
+        description: 'Stop struggling with "Dear Hiring Manager". Our AI writes personalized, persuasive cover letters that complement your resume\'s data.',
+        highlights: ['Hook-driven intro', 'Resume data sync', 'Customizable tone'],
+    }
+};
+
 export const seoPages = [
     ...Object.keys(roleData).map(role => `/templates/${role}`),
     ...Object.keys(toolsData).map(tool => `/tools/${tool}`),
-    ...Object.keys(blogData).map(post => `/blog/${post}`)
+    ...Object.keys(blogData).map(post => `/blog/${post}`),
+    ...Object.keys(landingData).map(slug => `/${slug}`)
 ];
