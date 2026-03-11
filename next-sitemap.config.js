@@ -57,15 +57,50 @@ module.exports = {
             'product-manager',
             'data-scientist',
             'backend-developer',
+            'ux-designer',
+            'sales-executive',
+            'marketing-manager',
+            'customer-success',
+            'hr-manager',
         ];
 
-        const templatePaths = roles.map((role) => ({
+        const tools = [
+            'ats-resume-checker',
+            'ai-bullet-point-generator',
+            'cover-letter-generator',
+            'resume-keyword-optimizer',
+            'resume-summary-generator',
+        ];
+
+        const posts = [
+            'best-ai-resume-builder-2025',
+            'how-to-beat-ats-in-2025',
+            'metric-driven-resumes-guide',
+            'resume-trends-for-ai-era',
+            'soft-skills-in-ai-resume',
+        ];
+
+        const rolePaths = roles.map((role) => ({
             loc: `/templates/${role}`,
             changefreq: 'weekly',
             priority: 0.8,
             lastmod: new Date().toISOString(),
         }));
 
-        return templatePaths;
+        const toolPaths = tools.map((tool) => ({
+            loc: `/tools/${tool}`,
+            changefreq: 'monthly',
+            priority: 0.7,
+            lastmod: new Date().toISOString(),
+        }));
+
+        const blogPaths = posts.map((post) => ({
+            loc: `/blog/${post}`,
+            changefreq: 'monthly',
+            priority: 0.6,
+            lastmod: new Date().toISOString(),
+        }));
+
+        return [...rolePaths, ...toolPaths, ...blogPaths];
     },
 };
