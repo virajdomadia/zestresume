@@ -18,7 +18,14 @@ export const metadata: Metadata = {
     description: "Create an ATS-friendly resume in under 2 minutes.",
     type: "website",
   },
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-icon.png",
+  },
 };
+
+
 
 export default function RootLayout({
   children,
