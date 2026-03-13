@@ -14,18 +14,20 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: LandingPageProps): Promise<Metadata> {
-    const data = landingData[params.slug];
+    const { slug } = await params;
+    const data = landingData[slug];
     if (!data) return { title: 'Resume Builder' };
 
     return {
         title: `${data.title} | ZestResume`,
         description: data.description,
-        keywords: [params.slug.replace(/-/g, ' '), 'resume builder', 'ai resume', 'ats friendly'],
+        keywords: [slug.replace(/-/g, ' '), 'resume builder', 'ai resume', 'ats friendly'],
     };
 }
 
-export default function KeywordLandingPage({ params }: LandingPageProps) {
-    const data = landingData[params.slug];
+export default async function KeywordLandingPage({ params }: LandingPageProps) {
+    const { slug } = await params;
+    const data = landingData[slug];
     if (!data) notFound();
 
     return (

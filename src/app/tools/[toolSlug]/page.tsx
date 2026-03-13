@@ -7,8 +7,15 @@ interface ToolPageProps {
     params: { toolSlug: string };
 }
 
+export async function generateStaticParams() {
+    return Object.keys(toolsData).map((toolSlug) => ({
+        toolSlug: toolSlug,
+    }));
+}
+
 export async function generateMetadata({ params }: ToolPageProps): Promise<Metadata> {
-    const tool = toolsData[params.toolSlug];
+    const { toolSlug } = await params;
+    const tool = toolsData[toolSlug];
     if (!tool) return { title: 'AI Resume Tool' };
 
     return {
@@ -17,8 +24,9 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
     };
 }
 
-export default function ToolPage({ params }: ToolPageProps) {
-    const tool = toolsData[params.toolSlug];
+export default async function ToolPage({ params }: ToolPageProps) {
+    const { toolSlug } = await params;
+    const tool = toolsData[toolSlug];
     if (!tool) notFound();
 
     return (

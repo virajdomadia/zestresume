@@ -7,8 +7,15 @@ interface BlogPageProps {
     params: { slug: string };
 }
 
+export async function generateStaticParams() {
+    return Object.keys(blogData).map((slug) => ({
+        slug: slug,
+    }));
+}
+
 export async function generateMetadata({ params }: BlogPageProps): Promise<Metadata> {
-    const post = blogData[params.slug];
+    const { slug } = await params;
+    const post = blogData[slug];
     if (!post) return { title: 'Career Blog' };
 
     return {
@@ -17,8 +24,9 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
     };
 }
 
-export default function BlogPage({ params }: BlogPageProps) {
-    const post = blogData[params.slug];
+export default async function BlogPage({ params }: BlogPageProps) {
+    const { slug } = await params;
+    const post = blogData[slug];
     if (!post) notFound();
 
     return (

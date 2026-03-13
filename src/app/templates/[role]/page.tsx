@@ -7,8 +7,15 @@ interface TemplatePageProps {
     params: { role: string };
 }
 
+export async function generateStaticParams() {
+    return Object.keys(roleData).map((role) => ({
+        role: role,
+    }));
+}
+
 export async function generateMetadata({ params }: TemplatePageProps): Promise<Metadata> {
-    const role = roleData[params.role];
+    const { role: roleSlug } = await params;
+    const role = roleData[roleSlug];
     if (!role) return { title: 'Resume Template' };
 
     return {
@@ -18,8 +25,9 @@ export async function generateMetadata({ params }: TemplatePageProps): Promise<M
     };
 }
 
-export default function TemplatePage({ params }: TemplatePageProps) {
-    const role = roleData[params.role];
+export default async function TemplatePage({ params }: TemplatePageProps) {
+    const { role: roleSlug } = await params;
+    const role = roleData[roleSlug];
     if (!role) notFound();
 
     return (
