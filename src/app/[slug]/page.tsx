@@ -42,7 +42,7 @@ export default async function KeywordLandingPage({ params }: LandingPageProps) {
                 <div className="relative max-w-5xl mx-auto px-6 text-center">
                     <div className="flex justify-center mb-8">
                         <span className="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 backdrop-blur-sm">
-                            Certified 2025 {params.slug.replace(/-/g, ' ')}
+                            Certified 2025 {slug.replace(/-/g, ' ')}
                         </span>
                     </div>
 
@@ -75,7 +75,7 @@ export default async function KeywordLandingPage({ params }: LandingPageProps) {
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center mb-20">
                         <h2 className="text-4xl font-black mb-4">Why choose Zest for <span className="text-indigo-400 italic font-serif">this</span> keyword?</h2>
-                        <p className="text-slate-400 max-w-xl mx-auto">We've engineered our platform to address the specific challenges of {params.slug.replace(/-/g, ' ')}.</p>
+                        <p className="text-slate-400 max-w-xl mx-auto">We've engineered our platform to address the specific challenges of {slug.replace(/-/g, ' ')}.</p>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-8">
@@ -106,7 +106,7 @@ export default async function KeywordLandingPage({ params }: LandingPageProps) {
                         </div>
                     </div>
                     <h2 className="text-4xl sm:text-6xl font-black mb-8 leading-tight">
-                        The last {params.slug.replace(/-/g, ' ')}
+                        The last {slug.replace(/-/g, ' ')}
                         <br />
                         <span className="text-indigo-400">you'll ever need.</span>
                     </h2>

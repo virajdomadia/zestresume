@@ -44,8 +44,8 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
                         {role.description}
                     </p>
                     <div className="flex gap-4">
-                        <Link href={`/builder?role=${params.role}`} className="bg-indigo-500 hover:bg-indigo-400 text-white px-8 py-4 rounded-xl font-black shadow-lg shadow-indigo-500/20 transition-all">
-                            Build My {params.role.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')} Resume
+                        <Link href={`/builder?role=${roleSlug}`} className="bg-indigo-500 hover:bg-indigo-400 text-white px-8 py-4 rounded-xl font-black shadow-lg shadow-indigo-500/20 transition-all">
+                            Build My {roleSlug.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')} Resume
                         </Link>
                     </div>
                 </div>
@@ -89,7 +89,7 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
                         <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-[2px] rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                             <div className="text-center p-8 bg-white/90 rounded-2xl shadow-2xl scale-90 group-hover:scale-100 transition-transform">
                                 <p className="text-slate-950 font-black text-xl mb-4 italic">"This could be your dream resume."</p>
-                                <Link href={`/builder?role=${params.role}`} className="bg-indigo-500 text-white px-8 py-3 rounded-full font-black text-sm">Use This AI Prompt</Link>
+                                <Link href={`/builder?role=${roleSlug}`} className="bg-indigo-500 text-white px-8 py-3 rounded-full font-black text-sm">Use This AI Prompt</Link>
                             </div>
                         </div>
                     </div>
@@ -100,7 +100,7 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
                     <div>
                         <h3 className="text-2xl font-black mb-4 underline decoration-indigo-500/50 decoration-4 underline-offset-8">Why use ZestAI for this role?</h3>
                         <p className="text-slate-400 text-sm leading-relaxed">
-                            Recruiters for {params.role.replace('-', ' ')} positions usually spend 6 seconds per resume.
+                            Recruiters for {roleSlug.replace('-', ' ')} positions usually spend 6 seconds per resume.
                             Our AI ensures your top technical skills and most impressive metrics are in the header where they can't be missed.
                         </p>
                     </div>
